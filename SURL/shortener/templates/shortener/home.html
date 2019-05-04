@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SURL home page</title>
+</head>
+<div style='width: 1000px; margin: 0 auto;'>
+    </div>
+    <h1>I'm glad that you are using this Shortener URL site   </h1>
+<body>
+    <form method='POST' action='.'> {% csrf_token %}
+        <input name='big url' type='text' placeholder='Place for your long URL' />
+        <input type='submit' value='Shortener' >
+    </form>
+
+</body>
+</html>
