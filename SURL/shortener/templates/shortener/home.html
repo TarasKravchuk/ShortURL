@@ -9,7 +9,7 @@
     <h1>I'm glad that you are using this Shortener URL site   </h1>
 <body>
     <form method='POST' action='.'> {% csrf_token %}
-        <input name='big url' type='text' placeholder='Place for your long URL' />
+        {{ form.as_p }}
         <input type='submit' value='Shortener' >
     </form>
 

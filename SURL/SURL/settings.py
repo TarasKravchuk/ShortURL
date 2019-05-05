@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['www.myshorturl.com']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,10 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # import
     'django_hosts',
-
     #my_apps
-
     'shortener',
 ]
 
@@ -59,6 +59,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'SURL.urls'
 ROOT_HOSTCONF = 'SURL.hosts'
 DEFAULT_HOST = 'www'
+DEFAULT_REDIRECT_URL = 'http://www.myshorturl.com:8000'
+PARENT_HOST = 'myshorturl.com:8000'
 
 TEMPLATES = [
     {

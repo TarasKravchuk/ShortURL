@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from .utils import surl_generator, create_shortcode
+from django_hosts.resolvers import reverse
+from .validators import validate_url
 
 SHORTCODE_MAX = getattr(settings, 'SHORTCODE_MAX', 15)
 
@@ -9,7 +11,7 @@ class SURLManager(models.Manager):
     def all(self, *args, **kwargs):
         qs_main = super(SURLManager, self).all(*args, **kwargs)
         #qs = qs_main.filter(active=True) !
-        qs = qs_main.filter()
+        qs = qs_main.filter(id__gte=1)
         return qs
 
     def refresh_shortcodes (self, items=None):
@@ -26,14 +28,12 @@ class SURLManager(models.Manager):
 
 
 class ShortURL(models.Model):
-    url = models.CharField(max_length=220, )
+    url = models.CharField(max_length=220, validators=[validate_url])
     shortcode = models.CharField(max_length=SHORTCODE_MAX, unique=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     objects = SURLManager()
-    # empty_datetime = models.DateTimeField(auto_now=False, auto_now_add=False)
-    # shortcode = models.CharField(max_length=15, null=True) Empty in database is okay
-    # shortcode = models.CharField(max_length=15, default='cfedefaultshortcode')
+
 
     def save(self, *args, **kwargs):
         if self.shortcode is None or self.shortcode == '':
@@ -45,3 +45,8 @@ class ShortURL(models.Model):
 
     def __unicode__(self):
         return str(self.url)
+
+    def get_short_url(self):
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
+        return url_path
+
